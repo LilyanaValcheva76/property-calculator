@@ -71,14 +71,12 @@ export default function PropertyCalculator() {
         const { maxRZP, marketPrice } = calculateValues(property);
         return (
           <Card key={index} className="relative shadow-md border rounded-2xl">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="absolute top-2 right-2 text-red-500 hover:bg-red-100"
-              onClick={() => deleteProperty(index)}
-            >
-              <X className="w-4 h-4" />
-            </Button>
+            <button
+  onClick={() => deleteProperty(index)}
+  className="absolute top-2 right-2 p-2 rounded-full hover:bg-red-100 text-red-500"
+>
+  <X className="w-4 h-4" />
+</button>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
               <Input placeholder="Площ (кв.м)" value={property.area} onChange={(e) => handleChange(index, "area", e.target.value)} />
               <Input placeholder="Плътност на застрояване (%)" value={property.density} onChange={(e) => handleChange(index, "density", e.target.value)} />
