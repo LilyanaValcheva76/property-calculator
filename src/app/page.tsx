@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FloatingInput } from "@/components/ui/floating-input";
 import { X } from "lucide-react";
 import jsPDF from "jspdf";
 import { robotoBase64 } from "../fonts/roboto";
@@ -117,11 +118,11 @@ const handleDownloadPDF = () => {
 
     properties.forEach((p, index) => {
       addLine(`Имот ${index + 1}:`, 13);
-      addLine(`№ / Име на имота: ${p.name || "-"}`);
-      addLine(`Площ (кв.м): ${p.area || "-"}`);
+      addLine(`№ (име на имота): ${p.name || "-"}`);
+      addLine(`Площ (кв. м): ${p.area || "-"}`);
       addLine(`Плътност (%): ${p.density || "-"}`);
       addLine(`КИНТ: ${p.kint || "-"}`);
-      addLine(`Цена/кв.м: ${p.costPerSqm || "-"}`);
+      addLine(`Цена/кв. м: ${p.costPerSqm || "-"}`);
       addLine(`% Обезщетение: ${p.compensationPercent || "-"}`);
       addLine(`Коеф. инфраструктура: ${p.infrastructureCoef || "-"}`);
       addLine(""); // празен ред между имотите
@@ -136,7 +137,7 @@ const handleDownloadPDF = () => {
   printProperties("Общински имоти", municipalProperties);
   addLine("");
 
-  addLine(`Разлика в стойностите: ${formatNumber(difference)} лв`, 14);
+  addLine(`Разлика в стойностите: ${formatNumber(difference)} лв.`, 14);
 
   doc.save("kalkulator-ocenki.pdf");
 };
@@ -160,7 +161,7 @@ const handleDownloadPDF = () => {
     Разликата в цените на общинските имоти и частните имоти:
   </CardContent>
   <div className="bg-white/10 p-4 text-2xl text-gray-100 font-bold flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
-    <span>{formatNumber(difference)} лв</span>
+    <span>{formatNumber(difference)} лв.</span>
     <Button
       onClick={handleDownloadPDF}
       className="bg-white/20 text-gray-200 border border-white/20 hover:bg-white/30 text-base rounded-lg"
@@ -257,29 +258,94 @@ function PropertySection({
                 <button className="absolute top-2 right-2 text-red-500 hover:text-red-700" onClick={() => onDelete(index, isMunicipal)}>
                   <X className="w-4 h-4" />
                 </button>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
-<Input
-  type="text"
-  placeholder="№ / Име на имота"
-  value={property.name}
-  onChange={(e) => onChange(index, "name", e.target.value, isMunicipal)}
-/>
-                  <Input type="number" placeholder="Площ (кв.м)" value={property.area} onChange={(e) => onChange(index, "area", e.target.value, isMunicipal)} />
-                  <Input type="number" placeholder="Плътност (%)" value={property.density} onChange={(e) => onChange(index, "density", e.target.value, isMunicipal)} />
-                  <Input type="number" placeholder="КИНТ (напр. 1.2, 2)" value={property.kint} onChange={(e) => onChange(index, "kint", e.target.value, isMunicipal)} />
-                  <Input type="number" placeholder="Цена/кв.м" value={property.costPerSqm} onChange={(e) => onChange(index, "costPerSqm", e.target.value, isMunicipal)} />
-                  <Input type="number"placeholder="% Обезщетение" value={property.compensationPercent} onChange={(e) => onChange(index, "compensationPercent", e.target.value, isMunicipal)} />
-                  <Input type="number" placeholder="Коеф. инфраструктура (напр. 0.6, 0.8, 1)" value={property.infrastructureCoef} onChange={(e) => onChange(index, "infrastructureCoef", e.target.value, isMunicipal)} />
-                </CardContent>
-                <div className="bg-white/10 px-6 py-4 text-sm text-gray-300">
-                  <p>Максимално РЗП: <strong>{formatNumber(maxRZP)}</strong> кв.м</p>
-                  <p>Пазарна стойност: <strong>{formatNumber(marketPrice)}</strong> лв</p>
-                </div>
+              
+
+<Card className="relative bg-white/10 rounded-2xl">
+  <button
+    className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+    onClick={() => onDelete(index, isMunicipal)}
+  >
+    <X className="w-4 h-4" />
+  </button>
+
+  <CardContent className="space-y-6 p-6">
+
+    {/* Секция: Основни данни */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <FloatingInput
+      type="text"
+      label="№ (име на имота)"
+      value={property.name}
+      onChange={(e) => onChange(index, "name", e.target.value, isMunicipal)}
+    />
+    <FloatingInput
+      type="number"
+      label="Площ (кв. м)"
+      value={property.area}
+      onChange={(e) => onChange(index, "area", e.target.value, isMunicipal)}
+    />
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+    <FloatingInput
+      type="number"
+      label="КИНТ (напр. 1.2, 2)"
+      value={property.kint}
+      onChange={(e) => onChange(index, "kint", e.target.value, isMunicipal)}
+    />
+    <div className="text-sm text-gray-300 bg-white/5 px-4 py-2 rounded-md h-full flex items-center">
+      РЗП: <strong className="ml-2">{formatNumber(maxRZP)} кв. м </strong> 
+    </div>
+  </div>
+
+    {/* Група 2: Строителна стойност */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+  <FloatingInput
+    type="number"
+    label="Еталонна цена (лв./кв. м)"
+    value={property.costPerSqm}
+    onChange={(e) => onChange(index, "costPerSqm", e.target.value, isMunicipal)}
+  />
+  <div className="text-sm text-gray-300 bg-white/5 px-4 py-2 rounded-md h-full flex items-center">
+    Стойност строителство: {" "}
+    <strong className="ml-1">{formatNumber(maxRZP * (parseFloat(property.costPerSqm) || 0))}  лв.</strong>
+  </div>
+</div>
+
+
+    {/* Група 3: Корекции */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <FloatingInput
+        type="number"
+        label="% Обезщетение"
+        value={property.compensationPercent}
+        onChange={(e) => onChange(index, "compensationPercent", e.target.value, isMunicipal)}
+      />
+      <FloatingInput
+        type="number"
+        label="Коеф. инфраструктура (напр. 0.6, 0.8, 1)"
+        value={property.infrastructureCoef}
+        onChange={(e) => onChange(index, "infrastructureCoef", e.target.value, isMunicipal)}
+      />
+    </div>
+
+    {/* Изчисление: Пазарна цена */}
+    <div className="w-full bg-white/5 px-4 py-3 rounded-md text-m text-gray-300 flex items-center gap-2">
+      <span className="text-lg">💰</span>
+      <span>
+        Пазарна цена: <strong>{formatNumber(marketPrice)}</strong> лв.
+      </span>
+    </div>
+  </CardContent>
+</Card>
+
+
               </Card>
             </div>
           );
         })}
       </div>
+
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
   <Button
     onClick={() => onAdd(isMunicipal)}
@@ -288,7 +354,7 @@ function PropertySection({
     ➕ Добави имот
   </Button>
   <div className="text-xl font-semibold text-gray-200 text-center sm:text-right w-full sm:w-auto">
-    Обща стойност: {formatNumber(total)} лв
+    Обща стойност: {formatNumber(total)} лв.
   </div>
 </div>
     </div>
