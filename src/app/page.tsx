@@ -333,7 +333,7 @@ function PropertySection({
     <div className="w-full bg-white/5 px-4 py-3 rounded-md text-m text-gray-300 flex items-center gap-2">
       <span className="text-lg">💰</span>
       <span>
-        Пазарна цена: <strong>{formatNumber(marketPrice)}</strong> лв.
+        <strong>Пазарна цена: {formatNumber(marketPrice)}</strong> лв.
       </span>
     </div>
   </CardContent>
