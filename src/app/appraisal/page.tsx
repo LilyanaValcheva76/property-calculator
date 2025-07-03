@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { FloatingInput } from "@/components/ui/floating-input";
 import { X } from "lucide-react";
 import jsPDF from "jspdf";
-import { robotoBase64 } from "../fonts/roboto";
+import { robotoBase64 } from "@/fonts/roboto";
 
 const formatNumber = (value: number) => {
   return new Intl.NumberFormat("bg-BG", {
@@ -166,7 +166,7 @@ const handleDownloadPDF = () => {
       onClick={handleDownloadPDF}
       className="bg-white/20 text-gray-200 border border-white/20 hover:bg-white/30 text-base rounded-lg"
     >
-      📄 Виж документа
+      📄 Свали като PDF
     </Button>
   </div>
 </Card>
