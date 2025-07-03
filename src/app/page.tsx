@@ -158,7 +158,7 @@ const handleDownloadPDF = () => {
 
 <Card className="bg-white/10 rounded-2xl overflow-hidden mb-6 border border-white/10">
   <CardContent className="p-2 text-xl text-gray-300">
-    Разликата в цените на общинските имоти и частните имоти:
+    Разликата в стойностите на общинските имоти и частните имоти:
   </CardContent>
   <div className="bg-white/10 p-4 text-2xl text-gray-100 font-bold flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
     <span>{formatNumber(difference)} лв.</span>
@@ -166,7 +166,7 @@ const handleDownloadPDF = () => {
       onClick={handleDownloadPDF}
       className="bg-white/20 text-gray-200 border border-white/20 hover:bg-white/30 text-base rounded-lg"
     >
-      📄 Виж документа
+      📄 Свали като PDF
     </Button>
   </div>
 </Card>
