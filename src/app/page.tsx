@@ -323,7 +323,7 @@ function PropertySection({
       />
       <FloatingInput
         type="number"
-        label="Коеф. инфраструктура (напр. 0.6, 0.8, 1)"
+        label="Кинф(напр. 0.8, 1)"
         value={property.infrastructureCoef}
         onChange={(e) => onChange(index, "infrastructureCoef", e.target.value, isMunicipal)}
       />
@@ -333,7 +333,7 @@ function PropertySection({
     <div className="w-full bg-white/5 px-4 py-3 rounded-md text-m text-gray-300 flex items-center gap-2">
       <span className="text-lg">💰</span>
       <span>
-        <strong>Пазарна цена: {formatNumber(marketPrice)}</strong> лв.
+        <strong>Пазарна стойност: {formatNumber(marketPrice)}</strong> лв.
       </span>
     </div>
   </CardContent>
