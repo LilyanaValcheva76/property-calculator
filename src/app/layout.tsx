@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import SidebarMenu from "@/components/layout/SidebarMenu";
 
 export const metadata: Metadata = {
-  title: "Property Calculator",
+  title: "Bedechko Property Calculator",
   description: "Калкулатор на пазарна стойност на имот",
 };
 
