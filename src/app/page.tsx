@@ -121,7 +121,7 @@ const handleDownloadPDF = () => {
       addLine(`№ (име на имота): ${p.name || "-"}`);
       addLine(`Площ (кв. м): ${p.area || "-"}`);
       addLine(`Плътност (%): ${p.density || "-"}`);
-      addLine(`КИНТ: ${p.kint || "-"}`);
+      addLine(`Кинт: ${p.kint || "-"}`);
       addLine(`Цена/кв. м: ${p.costPerSqm || "-"}`);
       addLine(`% Обезщетение: ${p.compensationPercent || "-"}`);
       addLine(`Коеф. инфраструктура: ${p.infrastructureCoef || "-"}`);
@@ -158,7 +158,7 @@ const handleDownloadPDF = () => {
 
 <Card className="bg-white/10 rounded-2xl overflow-hidden mb-6 border border-white/10">
   <CardContent className="p-2 text-xl text-gray-300">
-    Разликата в стойностите на общинските имоти и частните имоти:
+    Разлика в стойностите на общинските имоти и частните имоти:
   </CardContent>
   <div className="bg-white/10 p-4 text-2xl text-gray-100 font-bold flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
     <span>{formatNumber(difference)} лв.</span>
@@ -289,7 +289,7 @@ function PropertySection({
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
     <FloatingInput
       type="number"
-      label="КИНТ (напр. 1.2, 2)"
+      label="Кинт (напр. 1.2, 2)"
       value={property.kint}
       onChange={(e) => onChange(index, "kint", e.target.value, isMunicipal)}
     />
@@ -302,7 +302,7 @@ function PropertySection({
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
   <FloatingInput
     type="number"
-    label="Еталонна цена (лв./кв. м)"
+    label="Еталонна стойност (лв./кв. м)"
     value={property.costPerSqm}
     onChange={(e) => onChange(index, "costPerSqm", e.target.value, isMunicipal)}
   />
@@ -323,7 +323,7 @@ function PropertySection({
       />
       <FloatingInput
         type="number"
-        label="Кинф(напр. 0.8, 1)"
+        label="Кинф (напр. 0.8, 1)"
         value={property.infrastructureCoef}
         onChange={(e) => onChange(index, "infrastructureCoef", e.target.value, isMunicipal)}
       />
