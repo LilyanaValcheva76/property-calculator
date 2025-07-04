@@ -22,7 +22,7 @@ export default function RootLayout({
           <header className="w-full bg-transparent text-gray-100">
             <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
               <h1 className="text-4xl font-semibold tracking-tight text-gray-200">
-                Бедечко * Калкулатор
+                Бедечко & Калкулатор
               </h1>
               <SidebarMenu />
             </div>
