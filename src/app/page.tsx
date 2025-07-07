@@ -302,7 +302,7 @@ function PropertySection({
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
   <FloatingInput
     type="number"
-    label="Еталонна стойност (лв./кв. м)"
+    label="Еталонна цена (лв./кв. м)"
     value={property.costPerSqm}
     onChange={(e) => onChange(index, "costPerSqm", e.target.value, isMunicipal)}
   />

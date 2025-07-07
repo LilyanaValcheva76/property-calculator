@@ -21,7 +21,7 @@ export default function SidebarMenu() {
         <div className="absolute right-0 mt-2 w-64 bg-white/10 border border-white/20 text-gray-100 rounded-lg shadow-lg backdrop-blur-md z-50">
           <ul className="flex flex-col p-4 space-y-2">
             <li>
-              <Link href="/appraisal" className="block hover:text-white">
+              <Link href="/" className="block hover:text-white">
                 🏗️ Метод на обезщетението
               </Link>
             </li>
