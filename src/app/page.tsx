@@ -108,37 +108,88 @@ const handleDownloadPDF = () => {
     y += lineHeight;
   };
 
+  const addSeparator = () => {
+    if (y + 5 > pageHeight - 10) {
+      doc.addPage();
+      y = 10;
+    }
+    doc.setLineWidth(0.5);
+    doc.line(10, y, 200, y); // хоризонтална линия
+    y += 5;
+  };
+
+  const formatNumber = (num: number) =>
+    num.toLocaleString("bg-BG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  const calculatePropertyValue = (p: any) => {
+    const area = parseFloat(p.area || 0);
+    const kint = parseFloat(p.kint || 0);
+    const costPerSqm = parseFloat(p.costPerSqm || 0);
+    const comp = parseFloat(p.compensationPercent || 0);
+    const coef = parseFloat(p.infrastructureCoef || 0);
+
+    const maxRZP = area * kint;
+    const marketPrice = maxRZP * costPerSqm * (comp / 100) * coef;
+
+    return {
+      maxRZP: isNaN(maxRZP) ? 0 : maxRZP,
+      marketPrice: isNaN(marketPrice) ? 0 : marketPrice,
+    };
+  };
+
   const printProperties = (title: string, properties: any[]) => {
     addLine(title, 16);
 
     if (properties.length === 0) {
       addLine("Няма добавени имоти.");
-      return;
+      return 0;
     }
 
+    let totalValue = 0;
+
     properties.forEach((p, index) => {
+      const { maxRZP, marketPrice } = calculatePropertyValue(p);
+      totalValue += marketPrice;
+
       addLine(`Имот ${index + 1}:`, 13);
       addLine(`№ (име на имота): ${p.name || "-"}`);
       addLine(`Площ (кв. м): ${p.area || "-"}`);
-      addLine(`Плътност (%): ${p.density || "-"}`);
       addLine(`Кинт: ${p.kint || "-"}`);
+      addLine(`РЗП: ${formatNumber(maxRZP)} кв. м`);
       addLine(`Цена/кв. м: ${p.costPerSqm || "-"}`);
       addLine(`% Обезщетение: ${p.compensationPercent || "-"}`);
       addLine(`Коеф. инфраструктура: ${p.infrastructureCoef || "-"}`);
+      addLine(`Пазарна стойност: ${formatNumber(marketPrice)} лв.`);
       addLine(""); // празен ред между имотите
     });
+
+    addLine(`Обща стойност: ${formatNumber(totalValue)} лв.`, 14);
+    return totalValue;
   };
 
+  // Заглавие
   addLine("Оценки на имоти", 18);
   addLine("");
 
-  printProperties("Частни имоти", privateProperties);
+   // Частни имоти
+  const privateTotal = printProperties("Частни имоти", privateProperties);
+
+  // Малко пространство и разделител
   addLine("");
-  printProperties("Общински имоти", municipalProperties);
+  addSeparator();
   addLine("");
 
-  addLine(`Разлика в стойностите: ${formatNumber(difference)} лв.`, 14);
+  // Общински имоти
+  const municipalTotal = printProperties("Общински имоти", municipalProperties);
 
+  // Разлика
+  addLine("");
+  addSeparator();
+  addLine("");
+  const difference = municipalTotal - privateTotal;
+  addLine(`Разлика в стойностите на общинските имоти и частните имоти: ${formatNumber(difference)} лв.`, 14);
+
+  // Запазване
   doc.save("kalkulator-ocenki.pdf");
 };
 
